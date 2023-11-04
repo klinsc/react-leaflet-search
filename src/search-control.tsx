@@ -3,7 +3,7 @@ import Providers from "./Providers";
 import { BingMap, OpenStreetMap } from "./Providers";
 import PropTypes from "prop-types";
 import { Map as LeafletMap, LatLng } from "leaflet";
-import "../css/index.css";
+// import "../css/index.css";
 import { SearchInput } from "./core/search-input";
 import { SearchCloseButton } from "./core/search-close-button";
 import { SearchIconButton } from "./core/search-icon-button";
@@ -62,7 +62,7 @@ class SearchControl extends React.Component<SearchControlProps, SearchControlSta
         this.state = {
             open: this.props.openSearchOnLoad,
             closeButton: false,
-            showInfo: false,
+            showInfo: false
         };
         this.SearchResponseInfo = "";
         this.responseCache = {};
@@ -79,9 +79,9 @@ class SearchControl extends React.Component<SearchControlProps, SearchControlSta
             this.provider = new Provider(this.props.providerOptions);
         } else {
             throw new Error(
-                `You set the provider prop to ${
-                    this.props.provider
-                } but that isn't recognised. You can choose from ${Object.keys(Providers).join(", ")}`,
+                `You set the provider prop to ${this.props.provider} but that isn't recognised. You can choose from ${Object.keys(Providers).join(
+                    ", "
+                )}`
             );
         }
     }
@@ -94,7 +94,7 @@ class SearchControl extends React.Component<SearchControlProps, SearchControlSta
         closeResultsOnClick: PropTypes.bool,
         openSearchOnLoad: PropTypes.bool,
         searchBounds: PropTypes.array,
-        providerOptions: PropTypes.object,
+        providerOptions: PropTypes.object
     };
 
     static defaultProps: SearchControlProps = {
@@ -102,7 +102,7 @@ class SearchControl extends React.Component<SearchControlProps, SearchControlSta
         closeResultsOnClick: false,
         openSearchOnLoad: false,
         search: undefined,
-        provider: "OpenStreetMap",
+        provider: "OpenStreetMap"
     };
 
     setLock = (value: boolean) => {
@@ -132,12 +132,7 @@ class SearchControl extends React.Component<SearchControlProps, SearchControlSta
     };
     inputClick = (e: React.SyntheticEvent) => {
         this.input.current?.focus();
-        if (
-            !this.input.current?.value.startsWith(":") &&
-            this.lastInfo !== null &&
-            this.lastInfo !== "" &&
-            this.input.current?.value !== ""
-        ) {
+        if (!this.input.current?.value.startsWith(":") && this.lastInfo !== null && this.lastInfo !== "" && this.input.current?.value !== "") {
             this.SearchResponseInfo = this.lastInfo;
             this.lastInfo = null;
             this.setState({ showInfo: true });
@@ -195,8 +190,8 @@ class SearchControl extends React.Component<SearchControlProps, SearchControlSta
                         payload: {
                             latLng: new LatLng(Number(latLng[0]), Number(latLng[1])),
                             info: latLng.join(","),
-                            raw: latLng.join(","),
-                        },
+                            raw: latLng.join(",")
+                        }
                     });
             }
         } else {
@@ -234,8 +229,8 @@ class SearchControl extends React.Component<SearchControlProps, SearchControlSta
                 payload: {
                     latLng: new LatLng(Number(itemData.latitude), Number(itemData.longitude)),
                     info: itemData.name,
-                    raw: this.responseCache[this.input.current!.value].raw,
-                },
+                    raw: this.responseCache[this.input.current!.value].raw
+                }
             });
         if (this.props.closeResultsOnClick) {
             this.hideInfo();
@@ -243,9 +238,7 @@ class SearchControl extends React.Component<SearchControlProps, SearchControlSta
     };
 
     setMaxHeight = () => {
-        const containerRect = this.props.map
-            ? this.props.map.getContainer().getBoundingClientRect()
-            : document.body.getBoundingClientRect();
+        const containerRect = this.props.map ? this.props.map.getContainer().getBoundingClientRect() : document.body.getBoundingClientRect();
         const divRect = this.input.current!.getBoundingClientRect();
         const maxHeight = `${Math.floor((containerRect.bottom - divRect.bottom - 10) * 0.6)}px`;
         this.selectbox.current && this.selectbox.current.style && (this.selectbox.current.style.maxHeight = maxHeight);
@@ -264,8 +257,8 @@ class SearchControl extends React.Component<SearchControlProps, SearchControlSta
                     payload: {
                         latLng: new LatLng(Number(this.props.search.lat), Number(this.props.search.lng)),
                         info: inputValue,
-                        raw: this.props.search,
-                    },
+                        raw: this.props.search
+                    }
                 });
         }
     }
@@ -315,16 +308,9 @@ class SearchControl extends React.Component<SearchControlProps, SearchControlSta
                         }}
                         onSubmit={(e) => e.preventDefault()}
                     />
-                    <SearchCloseButton
-                        className={this.state.closeButton ? " search-control-close-button-active" : ""}
-                        onClick={this.closeClick}
-                    />
+                    <SearchCloseButton className={this.state.closeButton ? " search-control-close-button-active" : ""} onClick={this.closeClick} />
                 </section>
-                <section
-                    className={`search-control-info-wrapper${
-                        this.state.showInfo ? "" : " search-control-info-wrapper-close"
-                    }`}
-                >
+                <section className={`search-control-info-wrapper${this.state.showInfo ? "" : " search-control-info-wrapper-close"}`}>
                     <section ref={this.div} className={`search-control-info`}>
                         {this.state.showInfo && this.SearchResponseInfo}
                     </section>

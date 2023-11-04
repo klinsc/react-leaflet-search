@@ -2,7 +2,7 @@ import * as React from "react";
 import { BingMap, OpenStreetMap } from "./Providers";
 import PropTypes from "prop-types";
 import { Map as LeafletMap, LatLng } from "leaflet";
-import "../css/index.css";
+// import "../css/index.css";
 export interface SearchControlProps {
     provider?: string;
     customProvider?: {
@@ -42,9 +42,12 @@ declare type ItemData = {
 declare class SearchControl extends React.Component<SearchControlProps, SearchControlState> {
     input: React.RefObject<HTMLInputElement>;
     div: React.RefObject<HTMLDivElement>;
-    provider: OpenStreetMap | BingMap | {
-        search: (value: string) => Promise<any>;
-    };
+    provider:
+        | OpenStreetMap
+        | BingMap
+        | {
+              search: (value: string) => Promise<any>;
+          };
     responseCache: {
         [key: string]: any;
     };
